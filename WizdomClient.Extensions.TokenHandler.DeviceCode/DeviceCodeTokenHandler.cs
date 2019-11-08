@@ -19,7 +19,7 @@ namespace Wizdom.Client.Extensions
             get
             {
                 if (_authContext == null && !string.IsNullOrEmpty(clientId)) _authContext = PublicClientApplicationBuilder
-                    .Create(clientId) //Note - a bit messy - but clientid must always be set, before accessing this property...
+                    .Create(clientId)
                     .WithAuthority(Authority)
                     .WithDefaultRedirectUri()
                     .Build();
@@ -27,9 +27,11 @@ namespace Wizdom.Client.Extensions
             }
         }
 
-        public DeviceCodeTokenHandler()
+        public delegate void DeviceCodeResultDelegate(DeviceCodeResult deviceCodeResult);
+        private DeviceCodeResultDelegate _deviceCodeResultDelegate;
+        public DeviceCodeTokenHandler(DeviceCodeResultDelegate deviceCodeResultDelegate)
         {
-            //TODO: get output as delegate and send all communication through that instead of console.writeline
+            _deviceCodeResultDelegate = deviceCodeResultDelegate;
         }
 
         private string clientId;
@@ -42,8 +44,6 @@ namespace Wizdom.Client.Extensions
             if (AuthContext == null) return null;
 
             var accounts = await AuthContext?.GetAccountsAsync();
-
-            //        new KeyValuePair<string, string>("scope", resourceId != null ? resourceId + "/.default offline_access" : clientId + "/.default offline_access") //Ensure resourceid ends with / and add another for the .default scope so it ends up being //
             string[] scopes = new string[] { "offline_access", resourceId != null ? resourceId + "/.default" : clientId + "/.default" };
 
             // All AcquireToken* methods store the tokens in the cache, so check the cache first
@@ -79,11 +79,11 @@ namespace Wizdom.Client.Extensions
                     // * The timeout specified by the server for the lifetime of this code (typically ~15 minutes) has been reached
                     // * The developing application calls the Cancel() method on a CancellationToken sent into the method.
                     //   If this occurs, an OperationCanceledException will be thrown (see catch below for more details).
-                    Console.WriteLine(deviceCodeResult.Message);
+                    if (_deviceCodeResultDelegate != null) _deviceCodeResultDelegate(deviceCodeResult);
+                    else Console.WriteLine(deviceCodeResult.Message);
                     return Task.FromResult(0);
                 }).ExecuteAsync();
 
-                //Console.WriteLine(result.Account.Username);
                 return result;
             }
             // TODO: handle or throw all these exceptions
@@ -130,6 +130,8 @@ namespace Wizdom.Client.Extensions
                 await AuthContext?.RemoveAsync(account);
             }
         }
+
+        //Non-MSAL manual solution:
 
         //public async Task<string> GetToken(string clientId, string resourceId = null)
         //{
@@ -219,8 +221,5 @@ namespace Wizdom.Client.Extensions
         //    public int interval { get; set; }
         //    public string message { get; set; }
         //}
-
-
-
     }
 }

@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Client" Version="4.7.0" />
-    <PackageReference Include="Wizdom.WizdomClient" Version="0.0.0.6" />
+    <PackageReference Include="Wizdom.WizdomClient" Version="0.0.0.8" />
   </ItemGroup>
 
 </Project>

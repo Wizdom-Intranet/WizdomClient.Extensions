@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Wizdom.WizdomClient" Version="0.0.0.6" />
+    <PackageReference Include="Wizdom.WizdomClient" Version="0.0.0.8" />
   </ItemGroup>
 
 </Project>

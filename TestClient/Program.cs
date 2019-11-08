@@ -1,5 +1,6 @@
 ﻿using Microsoft.Identity.Client;
 using System;
+using System.Threading.Tasks;
 using Wizdom.Client;
 using Wizdom.Client.Extensions;
 
@@ -7,8 +8,7 @@ namespace TestClient
 {
     class Program
     {
-        private static string token { get; set; }
-        static async System.Threading.Tasks.Task Main(string[] args)
+        static async Task Main(string[] args)
         {
             var client = new WizdomClient(new DeviceCodeTokenHandler(delegate (DeviceCodeResult deviceCodeResult) { Console.WriteLine($"Please open {deviceCodeResult.VerificationUrl} and input code: {deviceCodeResult.UserCode}"); }));
             var environment = await client.ConnectAsync();

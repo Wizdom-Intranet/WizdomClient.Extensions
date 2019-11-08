@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WizdomClient.Extensions.Noticeboard\WizdomClient.Extensions.Noticeboard.csproj" />
+    <ProjectReference Include="..\WizdomClient.Extensions.TokenHandler.DeviceCode\WizdomClient.Extensions.TokenHandler.DeviceCode.csproj" />
+  </ItemGroup>
+
+</Project>

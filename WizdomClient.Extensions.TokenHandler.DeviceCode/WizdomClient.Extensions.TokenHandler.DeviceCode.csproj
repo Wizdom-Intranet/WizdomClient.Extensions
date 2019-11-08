@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Wizdom.Client.Extensions.TokenHandler</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.7.0" />
+    <PackageReference Include="Wizdom.WizdomClient" Version="0.0.0.6" />
+  </ItemGroup>
+
+</Project>
